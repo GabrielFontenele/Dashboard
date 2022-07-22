@@ -18,8 +18,8 @@ class CreateReservationsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('description');
             $table->string('status');
-            $table->timestamp('startTime');
-            $table->timestamp('endTime')->nullable();
+            $table->timestamp('start_time');
+            $table->timestamp('end_time')->nullable();
             $table->timestamps();
         });
     }

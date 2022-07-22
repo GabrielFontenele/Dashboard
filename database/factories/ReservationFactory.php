@@ -19,9 +19,9 @@ class ReservationFactory extends Factory
             //
             'user_id' => \App\Models\User::inRandomOrder()->first()->id,
             'description' => $this->faker->sentence(),
-            'status' => $this->faker->randomElement(['basic' ,'pro', 'preminum']),
-            'startTime' => $dates[0],
-            'endTime' => $dates[1] ?? null
+            'status' => $this->faker->randomElement(['cancelled' ,'completed', 'pending']),
+            'start_time' => $dates[0],
+            'end_time' => $dates[1] ?? null
         ];
     }
 
@@ -40,13 +40,7 @@ class ReservationFactory extends Factory
             $endTime = clone $startTime;
             $h = $endTime->format('H');
             $i = $endTime->format('i');
-            if($i == 30 ) {
-                $h++;
-                $i = 0;
-            } else{
-                $i = 30;
-            } 
-
+            $h++;
             $dates[] = $endTime->setTime($h, $i);
         }
         return $dates;
