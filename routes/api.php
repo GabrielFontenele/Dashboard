@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -17,3 +18,7 @@ use App\Models\User;
 Route::get('/user', function () {
     return response(User::all(), 200);
 });
+
+Route::apiResources([
+    'reservation' => ReservationController::class,
+]);
