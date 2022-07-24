@@ -41,7 +41,7 @@ class ReservationController extends Controller
         }
 
         if(Reservation::where('start_time', $request->start_time)->exists()){
-            return response()->json($validator->errors(), 422);
+            return response()->json('Time slot already reserved', 422);
         }
 
         $inputs = $validator->safe()->all();
@@ -91,7 +91,7 @@ class ReservationController extends Controller
         }
 
         if(Reservation::where('start_time', $request->start_time)->exists()){
-            return response()->json($validator->errors(), 422);
+            return response()->json('Time slot already reserved' , 422);
         }
 
         $reservation = Reservation::findOrFail($id);
