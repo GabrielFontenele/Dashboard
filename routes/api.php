@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\ReservationController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,10 +14,7 @@ use App\Models\User;
 |
 */
 
-Route::get('/user', function () {
-    return response(User::all(), 200);
-});
-
 Route::apiResources([
     'reservation' => ReservationController::class,
+    'user' => UserController::class,
 ]);
