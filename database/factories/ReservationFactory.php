@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Helpers\RandomGenerator;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,7 +15,7 @@ class ReservationFactory extends Factory
      */
     public function definition()
     {
-        $dates = self::randomDate();
+        $dates = RandomGenerator::instance()->randomDates("-1", "+1");
         return [
             //
             'user_id' => \App\Models\User::inRandomOrder()->first()->id,
@@ -24,27 +25,4 @@ class ReservationFactory extends Factory
             'end_time' => $dates[1] ?? null
         ];
     }
-
-    function randomDate()
-    {
-        $dates = [];
-        $startDate = strtotime(date('d-m-Y', strtotime("-1 week")));
-        $endDate = strtotime(date('d-m-Y', strtotime("+1 week")));
-        $startTime = date('Y-m-d H:i:s', rand($startDate, $endDate));
-
-        $startTime = DateTime::createFromFormat('Y-m-d H:i:s', $startTime);
-
-        $startTime->setTime(rand(9, 19), rand(0, 1) ? 30 : 0);
-        $dates[] = $startTime;
-        if (!rand(0, 4)){
-            $endTime = clone $startTime;
-            $h = $endTime->format('H');
-            $i = $endTime->format('i');
-            $h++;
-            $dates[] = $endTime->setTime($h, $i);
-        }
-        return $dates;
-
-    }
-    
 }

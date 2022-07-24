@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Helpers\RandomGenerator;
+use App\Models\User;
 
 class UserFactory extends Factory
 {
@@ -16,23 +18,21 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'document' => self::randomNumberString(11),
-            'card' => self::randomNumberString(10),
-            'birthday' => self::randomBirthdayDate(),
+            'document' => RandomGenerator::instance()->randomNumberString(11),
+            'card' => self::newRandomCard(),
+            'birthday' => RandomGenerator::instance()->randomBirthdayDate('-30','-20'),
             'plan' => $this->faker->randomElement(['basic' ,'pro', 'preminum']),
         ];
     }
 
-    function randomNumberString($length)
-    {
-        return  substr(str_shuffle(str_repeat($x='0123456789', ceil($length/strlen($x)) )),1,$length);
+    private function newRandomCard(){
+        $card = RandomGenerator::instance()->randomNumberString(10); 
+        $isUsed =  User::where('card', $card)->first();
+        if ($isUsed) {
+            return $this->newRandomCard();
+        }
+        return $card;
     }
 
-    function randomBirthdayDate()
-    {
-        $start_date = strtotime(date('d-m-Y', strtotime("-30 year")));
-        $end_date = strtotime(date('d-m-Y', strtotime("-20 year")));
 
-        return date('Y-m-d H:i:s', rand($start_date, $end_date));
-    }
 }
